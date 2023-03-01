@@ -38,6 +38,18 @@ func Borrar(w http.ResponseWriter, r *http.Request) {
 	idEmpleado := r.URL.Query().Get("id")
 	fmt.Println(idEmpleado)
 
+	conexionEstablecida := conexionDB()
+
+	borrarRegistro, err := conexionEstablecida.Prepare("DELETE FROM empleados WHERE id=?")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	borrarRegistro.Exec(idEmpleado)
+
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+
 }
 
 type Empleado struct {
