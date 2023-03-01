@@ -29,9 +29,15 @@ func main() {
 	http.HandleFunc("/", Inicio)
 	http.HandleFunc("/crear", Crear)
 	http.HandleFunc("/insertar", Insertar)
+	http.HandleFunc("/borrar", Borrar)
 
 	fmt.Println("Servidor corriendo...")
 	http.ListenAndServe(":8080", nil)
+}
+func Borrar(w http.ResponseWriter, r *http.Request) {
+	idEmpleado := r.URL.Query().Get("id")
+	fmt.Println(idEmpleado)
+
 }
 
 type Empleado struct {
@@ -66,7 +72,7 @@ func Inicio(w http.ResponseWriter, r *http.Request) {
 		empleado.Email = email
 		arregloEmpleado = append(arregloEmpleado, empleado)
 	}
-	fmt.Println(arregloEmpleado)
+	//fmt.Println(arregloEmpleado)
 
 	//fmt.Fprintf(w, "Hola Develoteca")
 	plantillas.ExecuteTemplate(w, "inicio", arregloEmpleado)
