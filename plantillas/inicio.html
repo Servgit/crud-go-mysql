@@ -13,12 +13,14 @@
                 </tr>
             </thead>
             <tbody>
+{{ range.}}
                 <tr>
-                    <td>5</td>
-                    <td>Servando</td>
-                    <td>servando@neoris.com</td>
-                    <td>Editar | Borrar</td>
+                    <td>{{.Id}}</td>
+                    <td>{{.Nombre}}</td>
+                    <td>{{.Email}}</td>
+                    <td>Editar {{.Id}} | Borrar {{.Id}} </td>
                 </tr>
+{{end}}
             </tbody>
         </table>
 

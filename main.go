@@ -69,7 +69,7 @@ func Inicio(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(arregloEmpleado)
 
 	//fmt.Fprintf(w, "Hola Develoteca")
-	plantillas.ExecuteTemplate(w, "inicio", nil)
+	plantillas.ExecuteTemplate(w, "inicio", arregloEmpleado)
 }
 func Crear(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "Hola Develoteca")
