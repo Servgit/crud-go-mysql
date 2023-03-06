@@ -30,10 +30,12 @@ func main() {
 	http.HandleFunc("/crear", Crear)
 	http.HandleFunc("/insertar", Insertar)
 	http.HandleFunc("/borrar", Borrar)
+	http.HandleFunc("/editar", Borrar)
 
 	fmt.Println("Servidor corriendo...")
 	http.ListenAndServe(":8080", nil)
 }
+
 func Borrar(w http.ResponseWriter, r *http.Request) {
 	idEmpleado := r.URL.Query().Get("id")
 	fmt.Println(idEmpleado)
@@ -88,6 +90,29 @@ func Inicio(w http.ResponseWriter, r *http.Request) {
 
 	//fmt.Fprintf(w, "Hola Develoteca")
 	plantillas.ExecuteTemplate(w, "inicio", arregloEmpleado)
+}
+func Editar(w http.ResponseWriter, r *http.Request) {
+	idEmpleado := r.URL.Query().Get("id")
+	fmt.Println(idEmpleado)
+
+	conexionEstablecida := conexionDB()
+	registro, err := conexionEstablecida.Query("SELECT * FROM empleados WHERE id=?", idEmpleado)
+
+	empleado := Empleado{}
+	for registro.Next() {
+		var id int
+		var nombre, email string
+		err = registro.Scan(&id, &nombre, &email)
+		if err != nil {
+			panic(err.Error())
+
+		}
+		empleado.Id = id
+		empleado.Nombre = nombre
+		empleado.Email = email
+	}
+
+	fmt.Println(empleado)
 }
 func Crear(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "Hola Develoteca")
