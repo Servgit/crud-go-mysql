@@ -30,7 +30,7 @@ func main() {
 	http.HandleFunc("/crear", Crear)
 	http.HandleFunc("/insertar", Insertar)
 	http.HandleFunc("/borrar", Borrar)
-	http.HandleFunc("/editar", Borrar)
+	http.HandleFunc("/editar", Editar)
 
 	fmt.Println("Servidor corriendo...")
 	http.ListenAndServe(":8080", nil)
@@ -113,6 +113,7 @@ func Editar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(empleado)
+	plantillas.ExecuteTemplate(w, "editar", empleado)
 }
 func Crear(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "Hola Develoteca")
