@@ -31,6 +31,7 @@ func main() {
 	http.HandleFunc("/insertar", Insertar)
 	http.HandleFunc("/borrar", Borrar)
 	http.HandleFunc("/editar", Editar)
+	http.HandleFunc("/actualizar", Actualizar)
 
 	fmt.Println("Servidor corriendo...")
 	http.ListenAndServe(":8080", nil)
@@ -134,6 +135,27 @@ func Insertar(w http.ResponseWriter, r *http.Request) {
 
 		}
 		insertarRegistros.Exec(nombre, email)
+
+		http.Redirect(w, r, "/", http.StatusMovedPermanently)
+
+	}
+}
+func Actualizar(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+
+		id := r.FormValue("id")
+		nombre := r.FormValue("nombre")
+		email := r.FormValue("email")
+
+		conexionEstablecida := conexionDB()
+
+		modificarRegistros, err := conexionEstablecida.Prepare(" UPDATE empleados SET nombre=?, email=? WHERE id=? ")
+
+		if err != nil {
+			panic(err.Error())
+
+		}
+		modificarRegistros.Exec(nombre, email, id)
 
 		http.Redirect(w, r, "/", http.StatusMovedPermanently)
 
